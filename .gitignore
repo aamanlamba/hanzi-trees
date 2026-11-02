@@ -1,0 +1,7 @@
+src/audio/
+*.apkg
+__pycache__/
+src/shots/
+src/*.json
+src/*.html
+src/*.png
