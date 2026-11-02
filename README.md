@@ -2,7 +2,7 @@
 
 Learn Chinese through **word families**. One character opens a set of words, and each word brings in the next character. Every card shows its own tree, so you can see where a character or word sits, what it's made of and what it connects to.
 
-**Get the deck on AnkiWeb:** _link coming once the listing is live_
+**Get the deck on AnkiWeb:** https://ankiweb.net/shared/info/916501166
 
 ![火山 card with its tree](images/02_compound_word.jpg)
 
