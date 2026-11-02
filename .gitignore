@@ -5,3 +5,5 @@ src/shots/
 src/*.json
 src/*.html
 src/*.png
+src/hw/
+src/_hanzi-writer.min.js

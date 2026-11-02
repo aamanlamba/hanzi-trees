@@ -3,6 +3,7 @@ sys.path.insert(0, '.')
 import genanki, jieba
 from pypinyin import pinyin, Style
 from data import TREES, SPLITS, CHARS, READINGS
+from strokes_tpl import strokes_json, PAD_CSS, QUIZ_HTML, anim_html, HW_JS
 
 jieba.setLogLevel(60)
 
@@ -161,23 +162,24 @@ CSS = """
 .pink{border-color:#e8679b}.n.pink{background:#fdeaf2}.ln.pink{background:#e8679b}
 .nightMode .n.orange,.nightMode .n.blue,.nightMode .n.green,.nightMode .n.purple,.nightMode .n.pink{background:#23262c}
 @media (max-width:520px){.n .e{display:none}.n .h{font-size:17px}.n.sm .h{font-size:14px}.n{min-width:0}}
-"""
+""" + PAD_CSS
 
 CHAR_MODEL = genanki.Model(
     1607392611, 'Hanzi Tree · Character',
-    fields=[{'name': n} for n in ['Hanzi', 'Pinyin', 'Meaning', 'Readings', 'Builds', 'Audio', 'Tree', 'Role']],
+    fields=[{'name': n} for n in ['Hanzi', 'Pinyin', 'Meaning', 'Readings', 'Builds', 'Audio', 'Tree', 'Role', 'Strokes']],
     templates=[
         {'name': 'Character → Sound & Meaning',
          'qfmt': '<div class="lvl">{{Role}}</div><div class="big">{{Hanzi}}</div>',
          'afmt': '{{FrontSide}}<div class="py">{{Pinyin}}</div><div class="mean">{{Meaning}}</div>{{Audio}}'
                  '{{#Readings}}<div class="read">{{Readings}}</div>{{/Readings}}'
-                 '<div class="bd">Builds: {{Builds}}</div>{{Tree}}'},
+                 '<div class="bd">Builds: {{Builds}}</div>' + anim_html('Hanzi') + '{{Tree}}'},
     ], css=CSS)
 
 WORD_MODEL = genanki.Model(
     1607392612, 'Hanzi Tree · Word',
     fields=[{'name': n} for n in ['Word', 'Pinyin', 'Meaning', 'Breakdown', 'Audio', 'Sentence',
-                                   'SentencePinyin', 'SentenceEnglish', 'SentenceAudio', 'Tree', 'Role']],
+                                   'SentencePinyin', 'SentenceEnglish', 'SentenceAudio', 'Tree', 'Role',
+                                   'Hint', 'Strokes']],
     templates=[
         {'name': 'Read: Word → Sound & Meaning',
          'qfmt': '<div class="lvl">{{Role}}</div><div class="mid">{{Word}}</div>',
@@ -187,9 +189,10 @@ WORD_MODEL = genanki.Model(
                  '<div class="en">{{SentenceEnglish}}</div>{{SentenceAudio}}</div>{{Tree}}'},
         {'name': 'Recall: Meaning → Word',
          'qfmt': '<div class="lvl">{{Role}} · write it</div><div class="prompt">{{Meaning}}</div>'
-                 '<div class="hint">{{Breakdown}}</div>',
-         'afmt': '<div class="lvl">{{Role}}</div><div class="prompt">{{Meaning}}</div><hr>'
-                 '<div class="mid">{{Word}}</div><div class="py">{{Pinyin}}</div>{{Audio}}{{Tree}}'},
+                 '<div class="hint">{{Hint}}</div>' + QUIZ_HTML,
+         'afmt': '<div class="lvl">{{Role}} · write it</div><div class="prompt">{{Meaning}}</div><hr>'
+                 '<div class="mid">{{Word}}</div><div class="py">{{Pinyin}}</div>{{Audio}}'
+                 '<div class="bd">{{Breakdown}}</div>' + anim_html('Word') + '{{Tree}}'},
         {'name': 'Listen: Sound → Word',
          'qfmt': '<div class="lvl">{{Role}} · listen</div><div class="prompt">🔊</div>{{Audio}}',
          'afmt': '{{FrontSide}}<hr><div class="mid">{{Word}}</div><div class="py">{{Pinyin}}</div>'
@@ -218,7 +221,7 @@ MAIN_DESC = DESC_STYLE + """
 <span style="color:#888">火 fire → 火车 train → 车 vehicle → 汽车 · 车站 · 车票</span></p>
 <p><b>Splits (01–08):</b> a common word splits into its two characters, and each character branches into 3 words.<br>
 <span style="color:#888">你好 → 你 (你们 · 你的 · 你家) + 好 (好吃 · 好看 · 好朋友)</span></p>
-<p><b>Card types:</b> Character · Read · Recall (write it) · Listen · Cloze. Every word has audio, an example sentence with pinyin and English, and a "+" breakdown. Every card shows its tree, with the current item outlined in red.</p>
+<p><b>Card types:</b> Character · Read · Recall (write it on a stroke pad) · Listen · Cloze. Character and Recall answers animate the stroke order. Every word has audio, an example sentence with pinyin and English, and a "+" breakdown. Every card shows its tree, with the current item outlined in red.</p>
 <p><b>Tip:</b> study one tree at a time by clicking into its subdeck. To lighten the load, suspend <code>card:Listen*</code> or <code>card:Recall*</code> in the Browser.</p>
 <p style="color:#888;font-size:90%">136 characters · 423 words · 1,828 cards · Simplified · HSK 1–3 (some HSK 4)</p>
 </div>"""
@@ -262,8 +265,11 @@ def add_char(deck, c, role, tree, tags):
     seen_chars.add(c)
     media.add(afile(c))
     py, en = CHARS[c]
-    add(deck, CHAR_MODEL, [c, py, E(en), E(READINGS.get(c, '')), builds_for(c), snd(c), tree, role],
+    add(deck, CHAR_MODEL, [c, py, E(en), E(READINGS.get(c, '')), builds_for(c), snd(c), tree, role, strokes_json(c)],
         'char:' + c, tags + ['character'])
+
+def hint_for(word, py):
+    return f'{E(py)} · ' + ' + '.join(E(gloss(c)) for c in word)
 
 def add_word(deck, w, role, tree, tags):
     word, py, en, sent, sen_en = w
@@ -271,7 +277,8 @@ def add_word(deck, w, role, tree, tags):
     seen_words.add(word)
     media.update([afile(word), afile(sent)])
     spy = sentence_pinyin(sent)
-    add(deck, WORD_MODEL, [word, py, E(en), breakdown(word), snd(word), sent, spy, E(sen_en), snd(sent), tree, role],
+    add(deck, WORD_MODEL, [word, py, E(en), breakdown(word), snd(word), sent, spy, E(sen_en), snd(sent), tree, role,
+                           hint_for(word, py), strokes_json(word)],
         'word:' + word, tags + ['word'])
     assert word in sent, (word, sent)
     cloze = sent.replace(word, '{{c1::' + word + '::' + E(en) + '}}', 1)
@@ -300,7 +307,7 @@ for j, (w, parts) in enumerate(SPLITS, 1):
     decks.append(d)
 
 pkg = genanki.Package(decks)
-pkg.media_files = [f'audio/{m}' for m in sorted(media)]
+pkg.media_files = [f'audio/{m}' for m in sorted(media)] + [HW_JS]
 pkg.write_to_file('Chinese_Hanzi_Trees.apkg')
 n = sum(len(d.notes) for d in decks)
 print('decks', len(decks), 'notes', n, 'chars', len(seen_chars), 'words', len(seen_words), 'audio', len(media))

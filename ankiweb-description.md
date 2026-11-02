@@ -23,15 +23,21 @@ Root characters: 火 人 水 日 月 大 天 手 中 上 吃 看 说 钱 木 白
 - **Mandarin audio** for every character, word and example sentence
 - **An example sentence for every word**, with full pinyin and English
 - **Characters with more than one reading** show all of them, with examples (行 xíng / háng, 好 hǎo / hào, 乐 lè / yuè, 觉 jué / jiào…)
+- **A writing pad on every Recall card**: draw the characters with your finger or mouse, with stroke-by-stroke checking (works on desktop, AnkiDroid and AnkiMobile, offline)
+- **Animated stroke order** on every character and Recall answer
 - **A "+" breakdown on every word**: 车站 = 车 (vehicle) + 站 (station)
 
 ## Card types
 
 1. **Character**: see the character, recall its sound and meaning
 2. **Read**: see the word, recall its pinyin and meaning, then see the example sentence and tree
-3. **Recall**: see the English and the character hints, write the word
+3. **Write**: see the English and pinyin, then write the word on a **stroke pad**. Every stroke is checked against the correct stroke order, and a hint appears after 3 misses. The answer side animates the stroke order.
 4. **Listen**: hear the word, name it
 5. **Cloze**: fill the missing word into a real sentence
+
+![Stroke pad: write 车站 from memory](https://raw.githubusercontent.com/aamanlamba/hanzi-trees/main/images/09_stroke_pad_blank.jpg)
+
+![Stroke pad completed](https://raw.githubusercontent.com/aamanlamba/hanzi-trees/main/images/10_stroke_pad_done.jpg)
 
 ![Cloze card: fill the gap](https://raw.githubusercontent.com/aamanlamba/hanzi-trees/main/images/05_cloze_front.jpg)
 
@@ -55,7 +61,7 @@ Beginner to lower-intermediate: mostly HSK 1–3, with some HSK 4. Simplified ch
 
 Word pinyin was checked by hand. Sentence pinyin was generated, then corrected for tone sandhi (一, 不, 3rd-tone pairs) and common neutral tones. If you spot a mistake, please leave a comment and it'll be fixed in the next update.
 
-Audio is computer-generated Mandarin text-to-speech.
+Audio is computer-generated Mandarin text-to-speech. The writing pad uses [Hanzi Writer](https://hanziwriter.org) (MIT), with stroke data from [Make Me a Hanzi](https://github.com/skishore/makemeahanzi) (Arphic Public License).
 
 ---
 
