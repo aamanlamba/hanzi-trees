@@ -7,10 +7,12 @@ Every card shows its own *Hanzi tree*, so you can see where a character or word 
 ## How the trees work
 
 **Root trees (31).** A root character branches into three compounds. Each compound brings in a new character, and each new character branches into three everyday words.
-火 fire → 火车 train → 车 vehicle → 汽车 car · 车站 station · 车票 ticket
+
+> 火 fire → 火车 train → 车 vehicle → 汽车 car · 车站 station · 车票 ticket
 
 **Split trees (8).** A common word splits into its two characters, and each character branches into three words.
-你好 hello → 你 (你们 · 你的 · 你家) + 好 (好吃 · 好看 · 好朋友)
+
+> 你好 hello → 你 (你们 · 你的 · 你家) + 好 (好吃 · 好看 · 好朋友)
 
 Root characters: 火 人 水 日 月 大 天 手 中 上 吃 看 说 钱 木 白 门 爱 时 行 东 女 子 路 雨 身 力 公 花 海 瓜
 
@@ -57,4 +59,4 @@ Audio is computer-generated Mandarin text-to-speech.
 
 ---
 
-Source, screenshots and issue tracker: https://github.com/aamanlamba/hanzi-trees
+Source, screenshots and issue tracker: [github.com/aamanlamba/hanzi-trees](https://github.com/aamanlamba/hanzi-trees)
