@@ -31,7 +31,7 @@ Root characters: 火 人 水 日 月 大 天 手 中 上 吃 看 说 钱 木 白
 
 1. **Character**: see the character, recall its sound and meaning
 2. **Read**: see the word, recall its pinyin and meaning, then see the example sentence and tree
-3. **Write**: see the English and pinyin, then write the word on a **stroke pad**. Every stroke is checked against the correct stroke order, and a hint appears after 3 misses. The answer side animates the stroke order.
+3. **Recall (write it)**: see the English and pinyin, then write the word on a **stroke pad**. Every stroke is checked against the correct stroke order, and a hint appears after 3 misses. The answer side animates the stroke order.
 4. **Listen**: hear the word, name it
 5. **Cloze**: fill the missing word into a real sentence
 
