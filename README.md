@@ -42,5 +42,5 @@ The vocabulary, sentences and character glosses all live in `src/data.py`. To ad
 ## Credits & licenses
 
 - Writing pad: [Hanzi Writer](https://hanziwriter.org) by David Chanin (MIT).
-- Stroke data: [Make Me a Hanzi](https://github.com/skishore/makemeahanzi), derived from Arphic fonts and distributed under the Arphic Public License. See .
+- Stroke data: [Make Me a Hanzi](https://github.com/skishore/makemeahanzi), derived from Arphic fonts and distributed under the Arphic Public License. See [LICENSE-stroke-data-ARPHICPL.txt](LICENSE-stroke-data-ARPHICPL.txt).
 - Audio: computer-generated Mandarin text-to-speech.
